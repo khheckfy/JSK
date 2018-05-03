@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JSK.Domain.Entities
 {
-    [Table("TestQuestion")]
+    [Table("TestQuestions")]
     public class TestQuestion
     {
         [Key]
