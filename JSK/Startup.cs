@@ -48,8 +48,9 @@ namespace JSK
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    name: "DefaultApi",
+                    template: "api/{controller}/{action}");
+                routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" }); // 2
             });
         }
     }
