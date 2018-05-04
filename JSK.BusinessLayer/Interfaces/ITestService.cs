@@ -1,7 +1,11 @@
-﻿namespace JSK.BusinessLayer.Interfaces
+﻿using JSK.BusinessLayer.DTO;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace JSK.BusinessLayer.Interfaces
 {
     public interface ITestService
     {
-        void Test();
+        Task<List<TestDTO>> Test_List();
     }
 }

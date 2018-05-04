@@ -9,6 +9,11 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>View</title>
+    <script type="text/javascript">
+        constants = {
+            getPage: '@Url.RouteUrl("DefaultApi", new {controller = "SampleData", action = "WeatherForecasts" })'
+        }
+    </script>
 </head>
 <body>
     <div id="content" class="container">

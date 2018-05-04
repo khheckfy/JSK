@@ -1,8 +1,8 @@
 ﻿import 'poper';
-import 'jquery';
+import JQuery from 'jquery';
 import 'bootstrap';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -19,7 +19,7 @@ export default class App extends React.Component {
                     <Header />
                     <main>
                         <Switch>
-                            <Route path="/admin" component={Admin} />
+                            <Route path="/admin" component={Admin}/>
                             <Route path="/" component={Home} />
                         </Switch>
                     </main>

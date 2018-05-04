@@ -1,4 +1,5 @@
-﻿using JSK.Data.EntityFramework;
+﻿using AutoMapper;
+using JSK.Data.EntityFramework;
 using JSK.Domain;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +10,8 @@ namespace JSK.BusinessLayer.Infrastructure
         public static IServiceCollection AddBusinessLayerDataFramework(this IServiceCollection services, string connectionString)
         {
             services.AddTransient<IUnitOfWork>(s => new UnitOfWork(connectionString));
+            services.AddAutoMapper();
+            Mappings.RegisterMappings();
             return services;
         }
     }

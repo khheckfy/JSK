@@ -1,6 +1,8 @@
 ﻿using JSK.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace JSK.Data.EntityFramework
 {
@@ -48,8 +50,15 @@ namespace JSK.Data.EntityFramework
     {
         public Model CreateDbContext(string[] args)
         {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+              .AddJsonFile("appsettings.json");
+
+            var config = builder.Build();
+            var connectionString = config.GetConnectionString("DefaultConnection");
+
             var optionsBuilder = new DbContextOptionsBuilder<Model>();
-            return new Model("Server=.;Database=JSK;Trusted_Connection=True;");
+
+            return new Model(connectionString);
         }
     }
 }

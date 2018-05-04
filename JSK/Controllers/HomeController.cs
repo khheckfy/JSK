@@ -11,16 +11,12 @@ namespace JSK.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ITestService TestService;
-
-        public HomeController(ITestService testService)
+        public HomeController()
         {
-            TestService = testService;
         }
 
         public IActionResult Index()
         {
-            TestService.Test();
             return View();
         }
     }
