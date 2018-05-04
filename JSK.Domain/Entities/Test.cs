@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JSK.Domain.Entities
@@ -11,5 +13,7 @@ namespace JSK.Domain.Entities
         [StringLength(255)]
         public string Name { set; get; }
         public bool IsRandomQuestionsOrder { set; get; }
+
+        public ICollection<TestQuestion> TestQuestions { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JSK.Domain.Entities
@@ -8,9 +10,14 @@ namespace JSK.Domain.Entities
     {
         [Key]
         public int TestQuestionId { set; get; }
-        public int TestId { set; get; }
+        
         [StringLength(1024)]
         public string Question { set; get; }
         public bool IsSingleAnswer { set; get; }
+
+        public int TestId { set; get; }
+        public Test Test { set; get; }
+
+        public virtual ICollection<TestQuestionAnswer> TestQuestionAnswers { set; get; }
     }
 }

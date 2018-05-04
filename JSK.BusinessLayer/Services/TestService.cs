@@ -14,7 +14,11 @@ namespace JSK.BusinessLayer.Services
 
         public void Test()
         {
-            
+            var list = DB.TestRepository.GetAll();
+            foreach(var l in list)
+            {
+
+            }
         }
     }
 }

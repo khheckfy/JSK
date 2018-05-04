@@ -11,9 +11,12 @@ namespace JSK.Domain.Entities
     {
         [Key]
         public int TestQuestionAnswerId { set; get; }
-        public int TestQuestionId { set; get; }
+        
         [StringLength(1024)]
         public string Answer { set; get; }
         public bool IsCorrect { set; get; }
+
+        public int TestQuestionId { set; get; }
+        public TestQuestion TestQuestion { set; get; }
     }
 }
