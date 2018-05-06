@@ -17,6 +17,11 @@ namespace JSK.BusinessLayer.DTO
         /// </summary>
         public bool IsRandomQuestionsOrder { set; get; }
 
+        /// <summary>
+        /// Активный тест
+        /// </summary>
+        public bool IsActive { set; get; }
+
         public List<TestQuestionDTO> Questions { set; get; }
     }
 }

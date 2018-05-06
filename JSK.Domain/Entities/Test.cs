@@ -13,6 +13,7 @@ namespace JSK.Domain.Entities
         [StringLength(255)]
         public string Name { set; get; }
         public bool IsRandomQuestionsOrder { set; get; }
+        public bool IsActive { set; get; }
 
         public ICollection<TestQuestion> TestQuestions { get; set; }
     }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace JSK.Domain.Entities
 {
@@ -15,6 +12,7 @@ namespace JSK.Domain.Entities
         [StringLength(1024)]
         public string Answer { set; get; }
         public bool IsCorrect { set; get; }
+        public bool IsActive { set; get; }
 
         public int TestQuestionId { set; get; }
         public TestQuestion TestQuestion { set; get; }

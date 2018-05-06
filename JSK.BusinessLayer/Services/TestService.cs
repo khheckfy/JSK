@@ -3,6 +3,7 @@ using JSK.BusinessLayer.DTO;
 using JSK.BusinessLayer.Interfaces;
 using JSK.Domain;
 using JSK.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace JSK.BusinessLayer.Services
 
         public async Task<List<TestDTO>> Test_ListAsync()
         {
-            var data = await DB.TestRepository.GetAllAsync();
+            var data = await DB.TestRepository.QueryList().Where(n => n.IsActive == true).ToListAsync();
             return _mapper.Map<List<Test>, List<TestDTO>>(data);
         }
 
@@ -30,35 +31,42 @@ namespace JSK.BusinessLayer.Services
         {
             Test obj = null;
             if (test.TestId == 0)
+            {
                 obj = _mapper.Map<TestDTO, Test>(test);
+                obj.IsActive = true;
+            }
             else
             {
-                obj = await DB.TestRepository.FindByIdAsync(test.TestId);
+                obj = await DB.TestRepository.QueryList()
+                    .Include(n => n.TestQuestions).FirstOrDefaultAsync(n => n.TestId == test.TestId);
                 obj.IsRandomQuestionsOrder = test.IsRandomQuestionsOrder;
                 obj.Name = test.Name;
             }
 
-            if (obj.TestQuestions == null)
-                obj.TestQuestions = new List<TestQuestion>();
-
-            if (test.Questions != null && test.Questions.Count > 0)
+            if (test.Questions != null)
             {
-                test.Questions.ForEach(q =>
+                if (obj.TestQuestions == null) obj.TestQuestions = new List<TestQuestion>();
+                if (test.Questions.Count == 0)
+                    obj.TestQuestions.Clear();
+                else
                 {
-                    TestQuestion qObj = _mapper.Map<TestQuestionDTO, TestQuestion>(q);
-                    if (qObj.TestQuestionId == 0)
-                        obj.TestQuestions.Add(qObj);
-                    else
+                    test.Questions.ForEach(q =>
                     {
-                        qObj = obj.TestQuestions.FirstOrDefault(n => n.TestQuestionId == q.TestQuestionId);
-                        if (qObj != null)
+                        TestQuestion qObj = _mapper.Map<TestQuestionDTO, TestQuestion>(q);
+                        if (qObj.TestQuestionId == 0)
+                            obj.TestQuestions.Add(qObj);
+                        else
                         {
-                            qObj.Question = q.Question;
-                            qObj.IsSingleAnswer = q.IsSingleAnswer;
+                            qObj = obj.TestQuestions.FirstOrDefault(n => n.TestQuestionId == q.TestQuestionId);
+                            if (qObj != null)
+                            {
+                                qObj.Question = q.Question;
+                                qObj.IsSingleAnswer = q.IsSingleAnswer;
+                                qObj.IsActive = q.IsActive;
+                            }
                         }
-                    }
-                });
-
+                    });
+                }
             }
 
 
@@ -73,7 +81,11 @@ namespace JSK.BusinessLayer.Services
         {
             var data = await DB.TestRepository.FindByIdAsync(id);
             var obj = _mapper.Map<Test, TestDTO>(data);
-            var qList = DB.TestQuestionRepository.QueryList().Where(n => n.TestId == id).ToList();
+            var qList = await DB.TestQuestionRepository
+                .QueryList()
+                .Include(n => n.TestQuestionAnswers)
+                .Where(n => n.TestId == id && n.IsActive == true)
+                .ToListAsync();
             obj.Questions = _mapper.Map<List<TestQuestion>, List<TestQuestionDTO>>(qList);
             return obj;
         }
@@ -81,7 +93,29 @@ namespace JSK.BusinessLayer.Services
         public async Task Test_RemoveAsync(int id)
         {
             var obj = await DB.TestRepository.FindByIdAsync(id);
-            DB.TestRepository.Remove(obj);
+            obj.IsActive = false;
+            await DB.SaveChangesAsync();
+        }
+
+        public async Task Answer_RemoveAsync(int id)
+        {
+            var obj = await DB.TestQuestionAnswerRepository.FindByIdAsync(id);
+            obj.IsActive = false;
+            await DB.SaveChangesAsync();
+        }
+
+        public async Task<int> Answer_AddAsync(TestQuestionAnswerDTO answer)
+        {
+            var obj = _mapper.Map<TestQuestionAnswerDTO, TestQuestionAnswer>(answer);
+            DB.TestQuestionAnswerRepository.Add(obj);
+            await DB.SaveChangesAsync();
+            return obj.TestQuestionAnswerId;
+        }
+
+        public async Task Answer_IsCorrect(int id)
+        {
+            var obj = await DB.TestQuestionAnswerRepository.FindByIdAsync(id);
+            obj.IsCorrect = !obj.IsCorrect;
             await DB.SaveChangesAsync();
         }
     }

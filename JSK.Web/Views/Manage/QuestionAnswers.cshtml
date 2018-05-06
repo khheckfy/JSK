@@ -1,0 +1,76 @@
+﻿@model QuestionAnswersModel
+@{
+    ViewData["Title"] = "Question Answers";
+    Layout = "~/Views/Shared/_LayoutManage.cshtml";
+}
+
+<h2>Question Answers for test @Model.TestName</h2>
+<div id="answers"></div>
+@foreach (var q in Model.Questions)
+{
+    <div class="card" qid="@q.TestQuestionId">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-10">@q.Question</div>
+                <div class="col-md-2 text-right">
+                    <a class="text-success fa fa-plus" data-toggle="modal" data-target="#aModal" qid="@q.TestQuestionId" href="#"></a>
+                </div>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            @foreach (var a in q.TestQuestionAnswers)
+            {
+                if (a.IsActive)
+                {
+                    <li class="list-group-item">
+                        <a answerId="@a.TestQuestionAnswerId" role="delete" class="fa fa-remove text-danger"></a>
+                        @if (a.IsCorrect)
+                        {
+                            <span class="text-success">@a.Answer</span><br />
+                            <a answerId="@a.TestQuestionAnswerId" href="#" role="isCorrect">Is not correct answer!</a>
+                        }
+                        else
+                        {
+                            @a.Answer<br />
+                            <a answerId="@a.TestQuestionAnswerId" href="#" role="isCorrect">Is correct answer!</a>
+                        }
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+}
+
+<!-- Modal -->
+<div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="aModalLabel">Answer settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="tbAName">Answer name</label>
+                    <input type="text" class="form-control" id="tbAName" placeholder="Enter Answer name" maxlength="1024">
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="chIsCorrect">
+                    <label class="form-check-label" for="chIsCorrect">Is correct answer</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnASave">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        let tAnswers = new Manage.Manage.QuestionForm();
+    </script>
+}

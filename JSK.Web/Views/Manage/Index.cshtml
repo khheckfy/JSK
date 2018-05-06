@@ -9,6 +9,7 @@
     <thead>
         <tr>
             <th scope="col">Name test</th>
+            <td scope="col">Answers</td>
             <th scope="col">Is random questions</th>
             <th scope="col"><a asp-action="TestForm" class="fa fa-plus text-success"></a></th>
         </tr>
@@ -18,6 +19,11 @@
         {
             <tr>
                 <td><a asp-controller="Manage" asp-action="TestForm" asp-route-id="@t.TestId">@t.Name</a></td>
+                <td>
+                    <a asp-controller="Manage" asp-action="QuestionAnswers" asp-route-id="@t.TestId">
+                        <span class="fa fa-question"></span>
+                    </a>
+                </td>
                 <td>
                     <div class="form-check">
                         @if (t.IsRandomQuestionsOrder)

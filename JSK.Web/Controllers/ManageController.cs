@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using JSK.BusinessLayer.DTO;
 using JSK.BusinessLayer.Interfaces;
@@ -90,6 +91,72 @@ namespace JSK.Web.Controllers
             }
 
             return Json(new { error });
+        }
+
+        public async Task<IActionResult> QuestionAnswers(int id)
+        {
+            QuestionAnswersModel model = new QuestionAnswersModel();
+
+            var test = await TestService.Test_GetAsync(id);
+
+            model.TestId = id;
+            model.TestName = test.Name;
+            model.Questions = test.Questions;
+
+            return View(model);
+        }
+
+        public async Task<JsonResult> Remove_Answer(int id)
+        {
+            string error = null;
+            try
+            {
+                await TestService.Answer_RemoveAsync(id);
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            return Json(new { error });
+        }
+
+        public async Task<JsonResult> IsCorrect_Answer(int id)
+        {
+            string error = null;
+            try
+            {
+                await TestService.Answer_IsCorrect(id);
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            return Json(new { error });
+        }
+
+        public async Task<JsonResult> Create_Answer(TestQuestionAnswerDTO model)
+        {
+            string error = null;
+            int id = 0;
+            var errorList = ModelState.Where(n => n.Value.Errors.Any()).ToDictionary(
+                   kvp => kvp.Key,
+                   kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+               );
+            try
+            {
+                if (!ModelState.IsValid && errorList.Count > 0)
+                    throw new Exception(string.Join(',', errorList.First().Value));
+
+                id = await TestService.Answer_AddAsync(model);
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            return Json(new { id, error, errorList });
         }
     }
 }

@@ -14,6 +14,7 @@ namespace JSK.Domain.Entities
         [StringLength(1024)]
         public string Question { set; get; }
         public bool IsSingleAnswer { set; get; }
+        public bool IsActive { set; get; }
 
         public int TestId { set; get; }
         public Test Test { set; get; }
