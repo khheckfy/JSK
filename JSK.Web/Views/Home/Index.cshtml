@@ -1,7 +1,8 @@
-﻿
+﻿@model HomeModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Home";
 }
 
-<h2>Index</h2>
 
+
+@{Html.RenderPartial("~/Views/Home/Partials/SelectTestForm.cshtml", Model);}

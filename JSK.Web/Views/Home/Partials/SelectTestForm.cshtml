@@ -1,0 +1,27 @@
+﻿@model HomeModel
+<br />
+<div class="jumbotron">
+    <form asp-action="Index" asp-controller="Home" method="post">
+        <h1 class="display-4">Hello, dear friend!</h1>
+        <p class="lead">Enter you're Name, email and select test please, and press OK for start!</p>
+        <hr class="my-4">
+        <p>If you are already registered and select the test you have already passed, the data will be deleted and the test will start again </p>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="Email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Name</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter you're name" name="Name">
+        </div>
+        <div class="form-group">
+            <label asp-for="TestId">Select test</label>
+            <select asp-for="TestId" asp-items="Model.TestListItems" class="form-control" id="exampleFormControlSelect1">
+                <option selected="selected" disabled="disabled">Select test please</option>
+            </select>
+        </div>
+        <div asp-validation-summary="All" id="divValidationSummary" class="text-danger wrapper"></div>
+        <input type="submit" class="btn btn-primary btn-lg" value="OK" />
+    </form>
+</div>

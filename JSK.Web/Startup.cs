@@ -21,8 +21,7 @@ namespace JSK.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBusinessLayerDataFramework(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddTransient<ITestService, TestService>();
-
+            
             services.AddMvc(options=>
             {
                 //options.Filters.Add(typeof(ValidateModelStateAttribute));
