@@ -38,13 +38,14 @@ namespace JSK.BusinessLayer.Services
                 await DB.SaveChangesAsync();
             }
 
-            
+
 
             UserTest userTest = new UserTest()
             {
                 UserTestId = Guid.NewGuid(),
                 TestId = testId,
-                User = obj
+                User = obj,
+                CreatedOn = DateTime.Now
             };
 
             DB.UserTestRepository.Add(userTest);
