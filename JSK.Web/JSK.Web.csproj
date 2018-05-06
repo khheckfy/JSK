@@ -8,6 +8,7 @@
   <ItemGroup>
     <None Remove="App\index.ts" />
     <None Remove="App\Manage.ts" />
+    <None Remove="App\System.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +31,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="App\index.ts" />
     <TypeScriptCompile Include="App\Manage.ts" />
+    <TypeScriptCompile Include="App\System.ts" />
   </ItemGroup>
 
 </Project>

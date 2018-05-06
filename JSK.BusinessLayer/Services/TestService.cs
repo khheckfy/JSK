@@ -4,6 +4,7 @@ using JSK.BusinessLayer.Interfaces;
 using JSK.Domain;
 using JSK.Domain.Entities;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace JSK.BusinessLayer.Services
@@ -37,6 +38,30 @@ namespace JSK.BusinessLayer.Services
                 obj.Name = test.Name;
             }
 
+            if (obj.TestQuestions == null)
+                obj.TestQuestions = new List<TestQuestion>();
+
+            if (test.Questions != null && test.Questions.Count > 0)
+            {
+                test.Questions.ForEach(q =>
+                {
+                    TestQuestion qObj = _mapper.Map<TestQuestionDTO, TestQuestion>(q);
+                    if (qObj.TestQuestionId == 0)
+                        obj.TestQuestions.Add(qObj);
+                    else
+                    {
+                        qObj = obj.TestQuestions.FirstOrDefault(n => n.TestQuestionId == q.TestQuestionId);
+                        if (qObj != null)
+                        {
+                            qObj.Question = q.Question;
+                            qObj.IsSingleAnswer = q.IsSingleAnswer;
+                        }
+                    }
+                });
+
+            }
+
+
             if (obj.TestId == 0)
                 DB.TestRepository.Add(obj);
 
@@ -46,7 +71,11 @@ namespace JSK.BusinessLayer.Services
 
         public async Task<TestDTO> Test_GetAsync(int id)
         {
-            return _mapper.Map<Test, TestDTO>(await DB.TestRepository.FindByIdAsync(id));
+            var data = await DB.TestRepository.FindByIdAsync(id);
+            var obj = _mapper.Map<Test, TestDTO>(data);
+            var qList = DB.TestQuestionRepository.QueryList().Where(n => n.TestId == id).ToList();
+            obj.Questions = _mapper.Map<List<TestQuestion>, List<TestQuestionDTO>>(qList);
+            return obj;
         }
 
         public async Task Test_RemoveAsync(int id)

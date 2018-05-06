@@ -1,4 +1,6 @@
-﻿namespace JSK.BusinessLayer.DTO
+﻿using System.Collections.Generic;
+
+namespace JSK.BusinessLayer.DTO
 {
     public class TestDTO
     {
@@ -14,5 +16,7 @@
         /// Вопросы теста выдаются в случайном порядке
         /// </summary>
         public bool IsRandomQuestionsOrder { set; get; }
+
+        public List<TestQuestionDTO> Questions { set; get; }
     }
 }

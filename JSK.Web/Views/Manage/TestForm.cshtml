@@ -18,7 +18,10 @@
     </div>
     <input type="hidden" asp-for="Questions" />
     <div asp-validation-summary="All" id="divValidationSummary" class="text-danger wrapper"></div>
-    <button type="submit" class="btn btn-primary">Save</button>
+
+    @{Html.RenderPartial("~/Views/Manage/Partials/TestFormQuestions.cshtml");}
+   
+    <input type="submit" class="btn btn-primary" value="Save" />
 </form>
 
 

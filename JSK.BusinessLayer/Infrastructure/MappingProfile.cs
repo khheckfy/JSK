@@ -10,6 +10,9 @@ namespace JSK.BusinessLayer.Infrastructure
         {
             CreateMap<Test, TestDTO>();
             CreateMap<TestDTO, Test>();
+
+            CreateMap<TestQuestion, TestQuestionDTO>();
+            CreateMap<TestQuestionDTO, TestQuestion>();
         }
     }
 }

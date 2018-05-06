@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using JSK.BusinessLayer.DTO;
 using JSK.BusinessLayer.Interfaces;
 using JSK.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace JSK.Web.Controllers
 {
@@ -22,7 +24,7 @@ namespace JSK.Web.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> TestResults()
+        public IActionResult TestResults()
         {
             return View();
         }
@@ -37,6 +39,8 @@ namespace JSK.Web.Controllers
                 model.IsRandomQuestions = obj.IsRandomQuestionsOrder;
                 model.TestId = id.Value;
                 model.TestName = obj.Name;
+                if (obj.Questions != null)
+                    model.Questions = JsonConvert.SerializeObject(obj.Questions);
             }
             return View(model);
         }
@@ -55,6 +59,11 @@ namespace JSK.Web.Controllers
                     Name = model.TestName,
                     TestId = model.TestId
                 };
+
+                if (!string.IsNullOrEmpty(model.Questions))
+                {
+                    test.Questions = JsonConvert.DeserializeObject<List<TestQuestionDTO>>(model.Questions);
+                }
 
                 await TestService.Test_SaveAsync(test);
             }
