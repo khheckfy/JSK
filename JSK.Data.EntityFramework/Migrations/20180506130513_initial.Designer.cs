@@ -11,8 +11,8 @@ using System;
 namespace JSK.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(Model))]
-    [Migration("20180506085633_Initial")]
-    partial class Initial
+    [Migration("20180506130513_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,6 +67,8 @@ namespace JSK.Data.EntityFramework.Migrations
                     b.Property<string>("Answer")
                         .HasMaxLength(1024);
 
+                    b.Property<bool>("IsActive");
+
                     b.Property<bool>("IsCorrect");
 
                     b.Property<int>("TestQuestionId");
@@ -76,6 +78,47 @@ namespace JSK.Data.EntityFramework.Migrations
                     b.HasIndex("TestQuestionId");
 
                     b.ToTable("TestQuestionAnswers");
+                });
+
+            modelBuilder.Entity("JSK.Domain.Entities.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(255);
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("JSK.Domain.Entities.UserTestAnswer", b =>
+                {
+                    b.Property<int>("UserTestAnswerId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AnswerText")
+                        .HasMaxLength(1024);
+
+                    b.Property<int?>("TestQuestionAnswerId");
+
+                    b.Property<int>("TestQuestionId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("UserTestAnswerId");
+
+                    b.HasIndex("TestQuestionAnswerId");
+
+                    b.HasIndex("TestQuestionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserTestAnswers");
                 });
 
             modelBuilder.Entity("JSK.Domain.Entities.TestQuestion", b =>
@@ -91,6 +134,23 @@ namespace JSK.Data.EntityFramework.Migrations
                     b.HasOne("JSK.Domain.Entities.TestQuestion", "TestQuestion")
                         .WithMany("TestQuestionAnswers")
                         .HasForeignKey("TestQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("JSK.Domain.Entities.UserTestAnswer", b =>
+                {
+                    b.HasOne("JSK.Domain.Entities.TestQuestionAnswer", "TestQuestionAnswer")
+                        .WithMany("UserTestAnswers")
+                        .HasForeignKey("TestQuestionAnswerId");
+
+                    b.HasOne("JSK.Domain.Entities.TestQuestion", "TestQuestion")
+                        .WithMany("UserTestAnswers")
+                        .HasForeignKey("TestQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("JSK.Domain.Entities.User", "User")
+                        .WithMany("UserTestAnswers")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

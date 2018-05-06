@@ -20,5 +20,6 @@ namespace JSK.Domain.Entities
         public Test Test { set; get; }
 
         public virtual ICollection<TestQuestionAnswer> TestQuestionAnswers { set; get; }
+        public virtual ICollection<UserTestAnswer> UserTestAnswers { set; get; }
     }
 }

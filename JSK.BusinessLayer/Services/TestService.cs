@@ -43,14 +43,14 @@ namespace JSK.BusinessLayer.Services
                 obj.Name = test.Name;
             }
 
-            if (test.Questions != null)
+            if (test.TestQuestions != null)
             {
                 if (obj.TestQuestions == null) obj.TestQuestions = new List<TestQuestion>();
-                if (test.Questions.Count == 0)
+                if (test.TestQuestions.Count == 0)
                     obj.TestQuestions.Clear();
                 else
                 {
-                    test.Questions.ForEach(q =>
+                    test.TestQuestions.ForEach(q =>
                     {
                         TestQuestion qObj = _mapper.Map<TestQuestionDTO, TestQuestion>(q);
                         if (qObj.TestQuestionId == 0)
@@ -79,15 +79,17 @@ namespace JSK.BusinessLayer.Services
 
         public async Task<TestDTO> Test_GetAsync(int id)
         {
-            var data = await DB.TestRepository.FindByIdAsync(id);
-            var obj = _mapper.Map<Test, TestDTO>(data);
-            var qList = await DB.TestQuestionRepository
-                .QueryList()
-                .Include(n => n.TestQuestionAnswers)
-                .Where(n => n.TestId == id && n.IsActive == true)
-                .ToListAsync();
-            obj.Questions = _mapper.Map<List<TestQuestion>, List<TestQuestionDTO>>(qList);
-            return obj;
+            var data = await DB.TestRepository.GetFullItem(id);
+            return _mapper.Map<Test, TestDTO>(data);
+            //var data = await DB.TestRepository.FindByIdAsync(id);
+            //var obj = _mapper.Map<Test, TestDTO>(data);
+            //var qList = await DB.TestQuestionRepository
+            //    .QueryList()
+            //    .Include(n => n.TestQuestionAnswers)
+            //    .Where(n => n.TestId == id && n.IsActive == true)
+            //    .ToListAsync();
+            //obj.Questions = _mapper.Map<List<TestQuestion>, List<TestQuestionDTO>>(qList);
+            //return obj;
         }
 
         public async Task Test_RemoveAsync(int id)

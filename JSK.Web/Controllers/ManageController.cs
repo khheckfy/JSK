@@ -40,8 +40,8 @@ namespace JSK.Web.Controllers
                 model.IsRandomQuestions = obj.IsRandomQuestionsOrder;
                 model.TestId = id.Value;
                 model.TestName = obj.Name;
-                if (obj.Questions != null)
-                    model.Questions = JsonConvert.SerializeObject(obj.Questions);
+                if (obj.TestQuestions != null)
+                    model.Questions = JsonConvert.SerializeObject(obj.TestQuestions);
             }
             return View(model);
         }
@@ -63,7 +63,7 @@ namespace JSK.Web.Controllers
 
                 if (!string.IsNullOrEmpty(model.Questions))
                 {
-                    test.Questions = JsonConvert.DeserializeObject<List<TestQuestionDTO>>(model.Questions);
+                    test.TestQuestions = JsonConvert.DeserializeObject<List<TestQuestionDTO>>(model.Questions);
                 }
 
                 await TestService.Test_SaveAsync(test);
@@ -101,7 +101,7 @@ namespace JSK.Web.Controllers
 
             model.TestId = id;
             model.TestName = test.Name;
-            model.Questions = test.Questions;
+            model.Questions = test.TestQuestions;
 
             return View(model);
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JSK.Data.EntityFramework
 {
-    public class UnitOfWork : Domain.IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         #region Fields
 
@@ -15,6 +15,8 @@ namespace JSK.Data.EntityFramework
         private ITestRepository _testRepository;
         private ITestQuestionAnswerRepository _testQuestionAnswerRepository;
         private ITestQuestionRepository _testQuestionRepository;
+        private IUserRepository _userRepository;
+        private IUserTestAnswerRepository _userTestAnswerRepository;
 
         #endregion
 
@@ -28,6 +30,16 @@ namespace JSK.Data.EntityFramework
         #endregion
 
         #region IUnitOfWork Members
+
+        public IUserTestAnswerRepository UserTestAnswerRepository
+        {
+            get { return _userTestAnswerRepository ?? (_userTestAnswerRepository = new UserTestAnswerRepository(_context)); }
+        }
+
+        public IUserRepository UserRepository
+        {
+            get { return _userRepository ?? (_userRepository = new UserRepository(_context)); }
+        }
 
         public ITestRepository TestRepository
         {

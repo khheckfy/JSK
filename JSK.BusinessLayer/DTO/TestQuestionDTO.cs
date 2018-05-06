@@ -7,7 +7,7 @@ namespace JSK.BusinessLayer.DTO
     {
         public int TestQuestionId { set; get; }
         [Required(ErrorMessage = "Question is empty")]
-        [StringLength(1024, MinimumLength = 3, ErrorMessage = "Min length is 3, max 1024")]
+        [StringLength(1024, MinimumLength = 1, ErrorMessage = "Min length is 1, max 1024")]
         public string Question { set; get; }
         public bool IsSingleAnswer { set; get; }
         public int TestId { set; get; }

@@ -13,6 +13,8 @@ namespace JSK.Data.EntityFramework
         public DbSet<Test> Tests { get; set; }
         public DbSet<TestQuestion> TestQuestions { get; set; }
         public DbSet<TestQuestionAnswer> TestQuestionAnswers { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserTestAnswer> UserTestAnswers { get; set; }
 
         public Model(string connectionString) : base()
         {
@@ -40,7 +42,18 @@ namespace JSK.Data.EntityFramework
              .WithMany(b => b.TestQuestionAnswers)
              .OnDelete(DeleteBehavior.Cascade);
 
-            
+            modelBuilder.Entity<UserTestAnswer>()
+             .HasOne(p => p.User)
+             .WithMany(b => b.UserTestAnswers)
+             .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserTestAnswer>()
+             .HasOne(p => p.TestQuestionAnswer)
+             .WithMany(b => b.UserTestAnswers);
+
+            modelBuilder.Entity<UserTestAnswer>()
+             .HasOne(p => p.TestQuestion)
+             .WithMany(b => b.UserTestAnswers);
 
             base.OnModelCreating(modelBuilder);
         }

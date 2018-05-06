@@ -16,6 +16,12 @@ namespace JSK.BusinessLayer.Infrastructure
 
             CreateMap<TestQuestionAnswerDTO, TestQuestionAnswer>();
             CreateMap<TestQuestionAnswer, TestQuestionAnswerDTO>();
+
+            CreateMap<UserDTO, User>();
+            CreateMap<User, UserDTO>();
+
+            CreateMap<UserTestAnswer, UserTestAnswerDTO>();
+            CreateMap<UserTestAnswerDTO, UserTestAnswer>();
         }
     }
 }

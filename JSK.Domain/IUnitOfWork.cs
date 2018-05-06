@@ -12,6 +12,8 @@ namespace JSK.Domain
         ITestRepository TestRepository { get; }
         ITestQuestionAnswerRepository TestQuestionAnswerRepository { get; }
         ITestQuestionRepository TestQuestionRepository { get; }
+        IUserRepository UserRepository { get; }
+        IUserTestAnswerRepository UserTestAnswerRepository { get; }
 
         #endregion
 
