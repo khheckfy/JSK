@@ -61,6 +61,32 @@ namespace JSK.Data.EntityFramework.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserTests",
+                columns: table => new
+                {
+                    UserTestId = table.Column<Guid>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    TestId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTests", x => x.UserTestId);
+                    table.ForeignKey(
+                        name: "FK_UserTests_Tests_TestId",
+                        column: x => x.TestId,
+                        principalTable: "Tests",
+                        principalColumn: "TestId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserTests_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TestQuestionAnswers",
                 columns: table => new
                 {
@@ -91,7 +117,8 @@ namespace JSK.Data.EntityFramework.Migrations
                     AnswerText = table.Column<string>(maxLength: 1024, nullable: true),
                     TestQuestionAnswerId = table.Column<int>(nullable: true),
                     TestQuestionId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false),
+                    UserTestId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -114,6 +141,12 @@ namespace JSK.Data.EntityFramework.Migrations
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserTestAnswers_UserTests_UserTestId",
+                        column: x => x.UserTestId,
+                        principalTable: "UserTests",
+                        principalColumn: "UserTestId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -140,6 +173,21 @@ namespace JSK.Data.EntityFramework.Migrations
                 name: "IX_UserTestAnswers_UserId",
                 table: "UserTestAnswers",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTestAnswers_UserTestId",
+                table: "UserTestAnswers",
+                column: "UserTestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTests_TestId",
+                table: "UserTests",
+                column: "TestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTests_UserId",
+                table: "UserTests",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -151,10 +199,13 @@ namespace JSK.Data.EntityFramework.Migrations
                 name: "TestQuestionAnswers");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "UserTests");
 
             migrationBuilder.DropTable(
                 name: "TestQuestions");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Tests");

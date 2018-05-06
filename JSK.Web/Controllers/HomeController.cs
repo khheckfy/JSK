@@ -34,9 +34,9 @@ namespace JSK.Web.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            int id = await UserService.CreateUser(new BusinessLayer.DTO.UserDTO() { Email = model.Email, Name = model.Name });
+            Guid id = await UserService.CreateUser(new BusinessLayer.DTO.UserDTO() { Email = model.Email, Name = model.Name }, model.TestId);
 
-            return RedirectToAction("Test", new { id = Guid.NewGuid() });
+            return RedirectToAction("Test", new { id = id });
         }
 
         public async Task<IActionResult> Test(Guid id)

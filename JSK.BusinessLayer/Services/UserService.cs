@@ -2,6 +2,8 @@
 using JSK.BusinessLayer.DTO;
 using JSK.BusinessLayer.Interfaces;
 using JSK.Domain;
+using JSK.Domain.Entities;
+using System;
 using System.Threading.Tasks;
 
 namespace JSK.BusinessLayer.Services
@@ -17,7 +19,7 @@ namespace JSK.BusinessLayer.Services
             DB = db;
         }
 
-        public async Task<int> CreateUser(UserDTO user)
+        public async Task<Guid> CreateUser(UserDTO user, int testId)
         {
             var obj = await DB.UserRepository.GetByEmail(user.Email);
             if (obj == null)
@@ -36,9 +38,19 @@ namespace JSK.BusinessLayer.Services
                 await DB.SaveChangesAsync();
             }
 
+            
+
+            UserTest userTest = new UserTest()
+            {
+                UserTestId = Guid.NewGuid(),
+                TestId = testId,
+                User = obj
+            };
+
+            DB.UserTestRepository.Add(userTest);
             await DB.SaveChangesAsync();
 
-            return obj.UserId;
+            return userTest.UserTestId;
         }
     }
 }

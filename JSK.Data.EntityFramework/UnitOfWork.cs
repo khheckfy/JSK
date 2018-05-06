@@ -17,6 +17,7 @@ namespace JSK.Data.EntityFramework
         private ITestQuestionRepository _testQuestionRepository;
         private IUserRepository _userRepository;
         private IUserTestAnswerRepository _userTestAnswerRepository;
+        private IUserTestRepository _userTestRepository;
 
         #endregion
 
@@ -30,6 +31,14 @@ namespace JSK.Data.EntityFramework
         #endregion
 
         #region IUnitOfWork Members
+
+        public IUserTestRepository UserTestRepository
+        {
+            get
+            {
+                return _userTestRepository ?? (_userTestRepository = new UserTestRepository(_context));
+            }
+        }
 
         public IUserTestAnswerRepository UserTestAnswerRepository
         {

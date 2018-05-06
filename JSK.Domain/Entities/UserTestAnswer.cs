@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,5 +22,8 @@ namespace JSK.Domain.Entities
 
         public int TestQuestionId { set; get; }
         public TestQuestion TestQuestion { set; get; }
+
+        public Guid? UserTestId { set; get; }
+        public UserTest UserTest { set; get; }
     }
 }

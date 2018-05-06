@@ -15,6 +15,7 @@ namespace JSK.Data.EntityFramework
         public DbSet<TestQuestionAnswer> TestQuestionAnswers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserTestAnswer> UserTestAnswers { get; set; }
+        public DbSet<UserTest> UserTests { set; get; }
 
         public Model(string connectionString) : base()
         {
@@ -54,6 +55,18 @@ namespace JSK.Data.EntityFramework
             modelBuilder.Entity<UserTestAnswer>()
              .HasOne(p => p.TestQuestion)
              .WithMany(b => b.UserTestAnswers);
+
+            modelBuilder.Entity<UserTest>()
+           .HasOne(p => p.User)
+           .WithMany(b => b.UserTests);
+
+            modelBuilder.Entity<UserTest>()
+          .HasOne(p => p.Test)
+          .WithMany(b => b.UserTests);
+
+            modelBuilder.Entity<UserTestAnswer>()
+          .HasOne(p => p.UserTest)
+          .WithMany(b => b.UserTestAnswers);
 
             base.OnModelCreating(modelBuilder);
         }

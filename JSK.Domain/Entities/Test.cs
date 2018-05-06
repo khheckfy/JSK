@@ -16,5 +16,6 @@ namespace JSK.Domain.Entities
         public bool IsActive { set; get; }
 
         public ICollection<TestQuestion> TestQuestions { get; set; }
+        public virtual ICollection<UserTest> UserTests { set; get; }
     }
 }

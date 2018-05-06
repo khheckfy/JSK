@@ -11,7 +11,7 @@ using System;
 namespace JSK.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(Model))]
-    [Migration("20180506130513_initial")]
+    [Migration("20180506143957_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,6 +96,26 @@ namespace JSK.Data.EntityFramework.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("JSK.Domain.Entities.UserTest", b =>
+                {
+                    b.Property<Guid>("UserTestId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<int>("TestId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("UserTestId");
+
+                    b.HasIndex("TestId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserTests");
+                });
+
             modelBuilder.Entity("JSK.Domain.Entities.UserTestAnswer", b =>
                 {
                     b.Property<int>("UserTestAnswerId")
@@ -110,6 +130,8 @@ namespace JSK.Data.EntityFramework.Migrations
 
                     b.Property<int>("UserId");
 
+                    b.Property<Guid?>("UserTestId");
+
                     b.HasKey("UserTestAnswerId");
 
                     b.HasIndex("TestQuestionAnswerId");
@@ -117,6 +139,8 @@ namespace JSK.Data.EntityFramework.Migrations
                     b.HasIndex("TestQuestionId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserTestId");
 
                     b.ToTable("UserTestAnswers");
                 });
@@ -137,6 +161,19 @@ namespace JSK.Data.EntityFramework.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("JSK.Domain.Entities.UserTest", b =>
+                {
+                    b.HasOne("JSK.Domain.Entities.Test", "Test")
+                        .WithMany("UserTests")
+                        .HasForeignKey("TestId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("JSK.Domain.Entities.User", "User")
+                        .WithMany("UserTests")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("JSK.Domain.Entities.UserTestAnswer", b =>
                 {
                     b.HasOne("JSK.Domain.Entities.TestQuestionAnswer", "TestQuestionAnswer")
@@ -152,6 +189,10 @@ namespace JSK.Data.EntityFramework.Migrations
                         .WithMany("UserTestAnswers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("JSK.Domain.Entities.UserTest", "UserTest")
+                        .WithMany("UserTestAnswers")
+                        .HasForeignKey("UserTestId");
                 });
 #pragma warning restore 612, 618
         }
