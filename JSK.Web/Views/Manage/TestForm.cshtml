@@ -1,0 +1,30 @@
+﻿@model ManageTestModel
+@{
+    ViewData["Title"] = "Test settings";
+    Layout = "~/Views/Shared/_LayoutManage.cshtml";
+}
+
+<h2>Test settings</h2>
+<form asp-controller="Manage" asp-action="TestForm" method="post">
+    <input type="hidden" asp-for="TestId" />
+    <div class="form-group">
+        <label asp-for="TestName">Test name</label>
+        <input type="text" asp-for="TestName" class="form-control" placeholder="Enter test name">
+        <small class="form-text text-danger" asp-validation-for="TestName"></small>
+    </div>
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" asp-for="IsRandomQuestions">
+        <label class="form-check-label" for="exampleCheck1">Issues randomly output</label>
+    </div>
+    <input type="hidden" asp-for="Questions" />
+    <div asp-validation-summary="All" id="divValidationSummary" class="text-danger wrapper"></div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+
+
+@section Scripts{
+    <script>
+        let tForm = new Manage.Manage.TestForm(@Model.TestId);
+    </script>
+}

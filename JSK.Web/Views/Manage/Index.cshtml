@@ -1,0 +1,45 @@
+﻿@model ManageTestListModel
+@{
+    ViewData["Title"] = "Test list";
+    Layout = "~/Views/Shared/_LayoutManage.cshtml";
+}
+
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Name test</th>
+            <th scope="col">Is random questions</th>
+            <th scope="col"><a asp-action="TestForm" class="fa fa-plus text-success"></a></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model.Tests)
+        {
+            <tr>
+                <td><a asp-controller="Manage" asp-action="TestForm" asp-route-id="@t.TestId">@t.Name</a></td>
+                <td>
+                    <div class="form-check">
+                        @if (t.IsRandomQuestionsOrder)
+                        {
+                            <input class="form-check-input" checked type="checkbox" disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" disabled>
+                        }
+                    </div>
+                </td>
+                <td>
+                    <a class="fa fa-remove text-danger" testId="@t.TestId" role="removeTest"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        let testList = new Manage.Manage.TestList();
+    </script>
+}

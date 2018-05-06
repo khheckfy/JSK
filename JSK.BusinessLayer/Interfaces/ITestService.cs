@@ -6,6 +6,9 @@ namespace JSK.BusinessLayer.Interfaces
 {
     public interface ITestService
     {
-        Task<List<TestDTO>> Test_List();
+        Task<List<TestDTO>> Test_ListAsync();
+        Task Test_SaveAsync(TestDTO test);
+        Task<TestDTO> Test_GetAsync(int id);
+        Task Test_RemoveAsync(int id);
     }
 }

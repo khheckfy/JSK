@@ -14,6 +14,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\assets\674f50d287a8c48dc19ba404d20fe713.eot" />
+    <None Include="wwwroot\assets\912ec66d7572ff821749319396470bde.svg" />
+    <None Include="wwwroot\assets\af7ae505a9eed503f8b8e6982036873e.woff2" />
+    <None Include="wwwroot\assets\b06871f281fee6b241d60582ae9369b9.ttf" />
+    <None Include="wwwroot\assets\bundle.js" />
+    <None Include="wwwroot\assets\bundle.js.map" />
+    <None Include="wwwroot\assets\fee66e712a8a08eef5805a46892932ad.woff" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\JSK.BusinessLayer\JSK.BusinessLayer.csproj" />
   </ItemGroup>
 

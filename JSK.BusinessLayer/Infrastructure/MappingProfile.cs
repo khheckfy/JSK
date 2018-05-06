@@ -9,6 +9,7 @@ namespace JSK.BusinessLayer.Infrastructure
         public MappingProfile()
         {
             CreateMap<Test, TestDTO>();
+            CreateMap<TestDTO, Test>();
         }
     }
 }

@@ -19,10 +19,41 @@ namespace JSK.BusinessLayer.Services
             DB = db;
         }
 
-        public async Task<List<TestDTO>> Test_List()
+        public async Task<List<TestDTO>> Test_ListAsync()
         {
             var data = await DB.TestRepository.GetAllAsync();
             return _mapper.Map<List<Test>, List<TestDTO>>(data);
+        }
+
+        public async Task Test_SaveAsync(TestDTO test)
+        {
+            Test obj = null;
+            if (test.TestId == 0)
+                obj = _mapper.Map<TestDTO, Test>(test);
+            else
+            {
+                obj = await DB.TestRepository.FindByIdAsync(test.TestId);
+                obj.IsRandomQuestionsOrder = test.IsRandomQuestionsOrder;
+                obj.Name = test.Name;
+            }
+
+            if (obj.TestId == 0)
+                DB.TestRepository.Add(obj);
+
+            await DB.SaveChangesAsync();
+
+        }
+
+        public async Task<TestDTO> Test_GetAsync(int id)
+        {
+            return _mapper.Map<Test, TestDTO>(await DB.TestRepository.FindByIdAsync(id));
+        }
+
+        public async Task Test_RemoveAsync(int id)
+        {
+            var obj = await DB.TestRepository.FindByIdAsync(id);
+            DB.TestRepository.Remove(obj);
+            await DB.SaveChangesAsync();
         }
     }
 }

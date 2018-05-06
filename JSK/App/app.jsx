@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './header/header.jsx';
 import Admin from './admin/admin.jsx';
 import Home from './home/home.jsx';
+import MyComponent from './test/test.jsx'
 
 export default class App extends React.Component {
     render() {
@@ -19,7 +20,7 @@ export default class App extends React.Component {
                     <Header />
                     <main>
                         <Switch>
-                            <Route path="/admin" component={Admin}/>
+                            <Route path="/admin" component={Admin} />
                             <Route path="/" component={Home} />
                         </Switch>
                     </main>

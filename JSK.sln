@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSK.Data.EntityFramework", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSK.BusinessLayer", "JSK.BusinessLayer\JSK.BusinessLayer.csproj", "{080EC74D-6DB1-4980-AC8D-2896E67F9200}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSK", "JSK\JSK.csproj", "{FB632E7D-7800-4E57-95D2-20135AC05D7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSK", "JSK\JSK.csproj", "{FB632E7D-7800-4E57-95D2-20135AC05D7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSK.Web", "JSK.Web\JSK.Web.csproj", "{8864E67A-2F0B-4043-B3BB-4ED8C5C77997}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{FB632E7D-7800-4E57-95D2-20135AC05D7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB632E7D-7800-4E57-95D2-20135AC05D7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB632E7D-7800-4E57-95D2-20135AC05D7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8864E67A-2F0B-4043-B3BB-4ED8C5C77997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8864E67A-2F0B-4043-B3BB-4ED8C5C77997}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8864E67A-2F0B-4043-B3BB-4ED8C5C77997}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8864E67A-2F0B-4043-B3BB-4ED8C5C77997}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
