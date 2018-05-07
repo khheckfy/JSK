@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JSK.Core.Extensions;
+using AutoMapper.QueryableExtensions;
 
 namespace JSK.BusinessLayer.Services
 {
@@ -179,6 +180,11 @@ namespace JSK.BusinessLayer.Services
 
 
             return model;
+        }
+
+        public async Task<List<TestResultDTO>> ResultList()
+        {
+            return await DB.UserTestRepository.SelectResults().ProjectTo<TestResultDTO>().ToListAsync();
         }
     }
 }

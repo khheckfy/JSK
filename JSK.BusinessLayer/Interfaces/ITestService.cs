@@ -19,5 +19,6 @@ namespace JSK.BusinessLayer.Interfaces
         Task Answer_IsCorrect(int id);
 
         Task<TestItemModel> GetTestItemModelAsync(Guid id);
+        Task<List<TestResultDTO>> ResultList();
     }
 }

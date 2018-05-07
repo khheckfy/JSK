@@ -25,9 +25,10 @@ namespace JSK.Web.Controllers
             return View(model);
         }
 
-        public IActionResult TestResults()
+        public async Task<IActionResult> TestResults()
         {
-            return View();
+            var list = await TestService.ResultList();
+            return View(list);
         }
 
         [HttpGet]
@@ -157,6 +158,12 @@ namespace JSK.Web.Controllers
             }
 
             return Json(new { id, error, errorList });
+        }
+
+        public async Task<IActionResult> TestResult(Guid id)
+        {
+
+            return View();
         }
     }
 }

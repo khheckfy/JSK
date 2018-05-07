@@ -1,8 +1,32 @@
-﻿
+﻿@model List<TestResultDTO>
 @{
-    ViewData["Title"] = "TestResults";
+    ViewData["Title"] = "Results of test";
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
 }
 
-<h2>TestResults</h2>
+<h2>Results of test</h2>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">User name</th>
+            <th scope="col">User e-mail</th>
+            <th scope="col">Test name</th>
+            <th scope="col">Created date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.UserName</td>
+                <td>@r.UserEmail</td>
+                <td>@r.TestName</td>
+                <td>@r.CreatedOn.ToString()</td>
+                <td><a class="fa fa-arrow-right text-primary" asp-action="TestResult" asp-controller="Manage" asp-route-id="@r.UserTestId"></a></td>
+            </tr>
+        }
+    </tbody>
+</table>
 
