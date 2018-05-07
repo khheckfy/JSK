@@ -31,7 +31,7 @@ namespace JSK.BusinessLayer.Services
             return _mapper.Map<List<Test>, List<TestDTO>>(data);
         }
 
-        public async Task Test_SaveAsync(TestDTO test)
+        public async Task<int> Test_SaveAsync(TestDTO test)
         {
             Test obj = null;
             if (test.TestId == 0)
@@ -78,7 +78,7 @@ namespace JSK.BusinessLayer.Services
                 DB.TestRepository.Add(obj);
 
             await DB.SaveChangesAsync();
-
+            return obj.TestId;
         }
 
         public async Task<TestDTO> Test_GetAsync(int id, bool isFull = false, bool isOnlActiveRecords = true)
@@ -185,6 +185,14 @@ namespace JSK.BusinessLayer.Services
         public async Task<List<TestResultDTO>> ResultList()
         {
             return await DB.UserTestRepository.SelectResults().ProjectTo<TestResultDTO>().ToListAsync();
+        }
+
+        public async Task<UserTestDTO> GetInfoResult(Guid id)
+        {
+            var data = await DB.UserTestRepository.GetInfoResult(id);
+            data.Test.TestQuestions.RemoveAll(n => n.IsActive == false);
+
+            return _mapper.Map<UserTest, UserTestDTO>(data);
         }
     }
 }

@@ -9,5 +9,6 @@ namespace JSK.Domain.Repositories
     {
         Task<Test> GetTest(Guid userTestId);
         IQueryable SelectResults();
+        Task<UserTest> GetInfoResult(Guid id);
     }
 }

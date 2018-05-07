@@ -162,8 +162,8 @@ namespace JSK.Web.Controllers
 
         public async Task<IActionResult> TestResult(Guid id)
         {
-
-            return View();
+            var model = await TestService.GetInfoResult(id);
+            return View(model);
         }
     }
 }

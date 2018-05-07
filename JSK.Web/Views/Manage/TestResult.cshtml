@@ -1,8 +1,37 @@
-﻿
+﻿@model UserTestDTO
 @{
     ViewData["Title"] = "TestResult";
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
 }
 
-<h2>TestResult</h2>
-
+<h2>Test Result for test @Model.Test.Name</h2>
+<div class="row">
+    @foreach (var q in Model.Test.TestQuestions)
+    {
+        <div class="card" style="width: 50%;">
+            <div class="card-header">@q.Question</div>
+            <ul class="list-group list-group-flush">
+                @foreach (var a in Model.UserTestAnswers.Where(n => n.TestQuestionId == q.TestQuestionId))
+                {
+                    <li class="list-group-item">
+                        @if (!string.IsNullOrEmpty(a.AnswerText))
+                        {
+                            <span>@a.AnswerText</span>
+                        }
+                        else
+                        {
+                            if (a.TestQuestionAnswer.IsCorrect)
+                            {
+                                <span class="text-success">@a.TestQuestionAnswer.Answer</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">@a.TestQuestionAnswer.Answer</span>
+                            }
+                        }
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+</div>

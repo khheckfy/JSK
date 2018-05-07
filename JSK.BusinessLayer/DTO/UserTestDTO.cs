@@ -10,5 +10,9 @@ namespace JSK.BusinessLayer.DTO
         public int UserId { set; get; }
         public int TestId { set; get; }
         public DateTime CreatedOn { set; get; }
+
+        public TestDTO Test { set; get; }
+        public List<UserTestAnswerDTO> UserTestAnswers { set; get; }
+
     }
 }

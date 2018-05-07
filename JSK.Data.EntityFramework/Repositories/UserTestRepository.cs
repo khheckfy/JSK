@@ -41,5 +41,16 @@ namespace JSK.Data.EntityFramework.Repositories
 
             return query;
         }
+
+        public Task<UserTest> GetInfoResult(Guid id)
+        {
+            return Set
+                .Include(n => n.Test)
+                .ThenInclude(t => t.TestQuestions)
+                .Include(n => n.UserTestAnswers)
+                .ThenInclude(a => a.TestQuestionAnswer)
+                .FirstOrDefaultAsync(n => n.UserTestId == id);
+
+        }
     }
 }
