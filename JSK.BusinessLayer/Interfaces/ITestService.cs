@@ -10,7 +10,7 @@ namespace JSK.BusinessLayer.Interfaces
     {
         Task<List<TestDTO>> Test_ListAsync();
         Task Test_SaveAsync(TestDTO test);
-        Task<TestDTO> Test_GetAsync(int id, bool isFull = false);
+        Task<TestDTO> Test_GetAsync(int id, bool isFull = false, bool isOnlActiveRecords = true);
         Task<TestDTO> Test_GetAsync(Guid userTestId);
         Task Test_RemoveAsync(int id);
 

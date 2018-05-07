@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using JSK.BusinessLayer.DTO;
 using JSK.BusinessLayer.Interfaces;
+using JSK.BusinessLayer.Models;
 using JSK.Domain;
 using JSK.Domain.Entities;
 using System;
@@ -52,6 +53,36 @@ namespace JSK.BusinessLayer.Services
             await DB.SaveChangesAsync();
 
             return userTest.UserTestId;
+        }
+
+        public async Task UseAnswer(UserAnswerModel model)
+        {
+            var userTest = await DB.UserTestRepository.FindByIdAsync(model.UserTetstId);
+            if (model.IsTextAnser)
+            {
+                DB.UserTestAnswerRepository.Add(new UserTestAnswer()
+                {
+                    AnswerText = model.AnswerText,
+                    UserTestId = model.UserTetstId,
+                    UserId = userTest.UserId,
+                    TestQuestionId = model.QuestionId
+                });
+            }
+            else
+            {
+                foreach (var a in model.Answers)
+                {
+                    DB.UserTestAnswerRepository.Add(new UserTestAnswer()
+                    {
+                        UserTestId = model.UserTetstId,
+                        TestQuestionAnswerId = a,
+                        UserId = userTest.UserId,
+                        TestQuestionId = model.QuestionId
+                    });
+                }
+            }
+
+            await DB.SaveChangesAsync();
         }
     }
 }

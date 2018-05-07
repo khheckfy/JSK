@@ -1,13 +1,14 @@
 ﻿@model TestItemModel
 
-
-<div class="card text-center">
-    <div class="card-header">
-        Please, answer for this question:
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">@Model.QuestionName</h5>
-        <p class="card-text">
+@if (!Model.IsComplete)
+{
+    <input type="hidden" asp-for="QuestionId" />
+    <div class="card text-center">
+        <div class="card-header">
+            Please, answer for this question:
+        </div>
+        <div class="card-body text-left">
+            <h5 class="card-title">@Model.QuestionName</h5>
             @if (Model.Answers.Count == 0)
             {
                 <div class="form-group">
@@ -23,30 +24,36 @@
                 }
                 else
                 {
-                    <p>Please, select one or more answer form list:</p><p></p>
+                    <p>Please, select one or more answer form list:</p>
                 }
                 foreach (var a in Model.Answers)
                 {
                     if (Model.IsSingleAnswer)
                     {
                         <div class="custom-control custom-radio">
-                            <input type="radio" id="@a.TestQuestionAnswerId" name="customRadio" class="custom-control-input">
+                            <input type="radio" id="@a.TestQuestionAnswerId" name="answer" class="custom-control-input">
                             <label class="custom-control-label" for="@a.TestQuestionAnswerId">@a.Answer</label>
                         </div>
                     }
                     else
                     {
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="@a.TestQuestionAnswerId">
+                            <input type="checkbox" name="answer" class="custom-control-input" id="@a.TestQuestionAnswerId">
                             <label class="custom-control-label" for="@a.TestQuestionAnswerId">@a.Answer</label>
                         </div>
                     }
                 }
             }
-        </p>
-        <a href="#" class="btn btn-primary">Next question</a>
-    </div>
-    <div class="card-footer text-muted">
 
+            <button class="btn btn-primary" id="btnNextQuestion">Next question</button>
+        </div>
     </div>
-</div>
+}
+else
+{
+    <div class="jumbotron">
+        <h1 class="display-4">Test is complete!</h1>
+        <hr class="my-4">
+        <a class="btn btn-primary btn-lg" href="/" role="button">Home</a>
+    </div>
+}

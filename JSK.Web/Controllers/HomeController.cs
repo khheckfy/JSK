@@ -57,5 +57,20 @@ namespace JSK.Web.Controllers
 
             return PartialView("~/Views/Home/Partials/TestItem.cshtml", model);
         }
+
+        public async Task<JsonResult> UserTestAnswer(UserAnswerModel model)
+        {
+            string error = null;
+            try
+            {
+                await UserService.UseAnswer(model);
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            return Json(new { error });
+        }
     }
 }

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JSK.Core.Extensions;
 
 namespace JSK.BusinessLayer.Services
 {
@@ -25,7 +26,7 @@ namespace JSK.BusinessLayer.Services
 
         public async Task<List<TestDTO>> Test_ListAsync()
         {
-            var data = await DB.TestRepository.QueryList().Where(n => n.IsActive == true).ToListAsync();
+            var data = await DB.TestRepository.GetActiveTestsAsync();
             return _mapper.Map<List<Test>, List<TestDTO>>(data);
         }
 
@@ -79,12 +80,20 @@ namespace JSK.BusinessLayer.Services
 
         }
 
-        public async Task<TestDTO> Test_GetAsync(int id, bool isFull = false)
+        public async Task<TestDTO> Test_GetAsync(int id, bool isFull = false, bool isOnlActiveRecords = true)
         {
             Test data = null;
 
             if (isFull)
+            {
                 data = await DB.TestRepository.GetFullItem(id);
+                if (isOnlActiveRecords)
+                {
+                    data.TestQuestions.RemoveAll(x => x.IsActive == false);
+                    foreach (var t in data.TestQuestions)
+                        t.TestQuestionAnswers.RemoveAll(x => x.IsActive == false);
+                }
+            }
             else
                 data = await DB.TestRepository.FindByIdAsync(id);
 
@@ -136,20 +145,23 @@ namespace JSK.BusinessLayer.Services
 
             var userTest = await DB.UserTestRepository.FindByIdAsync(id);
             //Get test item
-            var test = await DB.TestRepository.GetFullItem(userTest.TestId);
+            var test = await Test_GetAsync(userTest.TestId, true, true);
 
             model.ID = id;
             model.TestId = test.TestId;
             model.TestName = test.Name;
 
             //Get free questions fot this test
-            var userQuestion = await DB.TestQuestionRepository.GetTestQuestionsByTest(id);
-            var freeQuestoins = test.TestQuestions.Where(n => !userQuestion.Any(q => q.TestQuestionId != n.TestQuestionId)).ToList();
-            TestQuestion topQuestion = null;
-            if (test.IsRandomQuestionsOrder)
-                topQuestion = freeQuestoins.OrderBy(n => Guid.NewGuid()).FirstOrDefault();
-            else
-                topQuestion = freeQuestoins.FirstOrDefault();
+            var userQuestion = _mapper.Map<List<TestQuestion>, List<TestQuestionDTO>>(await DB.TestQuestionRepository.GetTestQuestionsByTest(id));
+            var freeQuestoins = test.TestQuestions.Where(n => !userQuestion.Select(x => x.TestQuestionId).Contains(n.TestQuestionId)).ToList();
+            TestQuestionDTO topQuestion = null;
+            if (freeQuestoins.Count > 0)
+            {
+                if (test.IsRandomQuestionsOrder)
+                    topQuestion = freeQuestoins.OrderBy(n => Guid.NewGuid()).FirstOrDefault();
+                else
+                    topQuestion = freeQuestoins.FirstOrDefault();
+            }
 
             if (topQuestion != null)
             {
@@ -157,7 +169,7 @@ namespace JSK.BusinessLayer.Services
                 model.QuestionName = topQuestion.Question;
                 model.IsSingleAnswer = topQuestion.IsSingleAnswer;
 
-                model.Answers = _mapper.Map<ICollection<TestQuestionAnswer>, List<TestQuestionAnswerDTO>>(topQuestion.TestQuestionAnswers);
+                model.Answers = topQuestion.TestQuestionAnswers;
             }
             else
             {

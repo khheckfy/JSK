@@ -101,7 +101,7 @@ namespace JSK.Web.Controllers
 
             model.TestId = id;
             model.TestName = test.Name;
-            model.Questions = test.TestQuestions;
+            model.Questions = test.TestQuestions.Where(n => n.IsActive).ToList();
 
             return View(model);
         }
