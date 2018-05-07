@@ -13,9 +13,9 @@ namespace JSK.Data.EntityFramework.Repositories
         {
         }
 
-        public async Task<Test> GetFullItem(int testId)
+        public Task<Test> GetFullItem(int testId)
         {
-            return await Set
+            return Set
                     .Include(test => test.TestQuestions)
                     .ThenInclude(test => test.TestQuestionAnswers)
                     .FirstOrDefaultAsync(t => t.TestId == testId);

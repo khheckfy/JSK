@@ -103,9 +103,9 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./App/Manage.ts":
+/***/ "./App/Manage.js":
 /*!***********************!*\
-  !*** ./App/Manage.ts ***!
+  !*** ./App/Manage.js ***!
   \***********************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -331,6 +331,38 @@ var System;
 
 /***/ }),
 
+/***/ "./App/Tests.ts":
+/*!**********************!*\
+  !*** ./App/Tests.ts ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Tests;
+(function (Tests) {
+    var Main = /** @class */ (function () {
+        function Main(id) {
+            this.currentTestId = id;
+            this.testRoot = $('#testRoot');
+            this.loadForm();
+        }
+        Main.prototype.loadForm = function () {
+            var _this = this;
+            $.get('/Home/TestItem/' + this.currentTestId, function (data) {
+                _this.testRoot.html(data);
+            });
+        };
+        return Main;
+    }());
+    Tests.Main = Main;
+})(Tests = exports.Tests || (exports.Tests = {}));
+
+
+/***/ }),
+
 /***/ "./App/index.ts":
 /*!**********************!*\
   !*** ./App/index.ts ***!
@@ -346,8 +378,10 @@ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"
 __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
 __webpack_require__(/*! bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
 __webpack_require__(/*! font-awesome/css/font-awesome.css */ "./node_modules/font-awesome/css/font-awesome.css");
-var manage = __webpack_require__(/*! ./Manage */ "./App/Manage.ts");
+var manage = __webpack_require__(/*! ./Manage */ "./App/Manage.js");
+var tests = __webpack_require__(/*! ./Tests */ "./App/Tests.ts");
 window["Manage"] = manage;
+window["tests"] = tests;
 window["$"] = $;
 
 

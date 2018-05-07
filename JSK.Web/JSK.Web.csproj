@@ -9,6 +9,7 @@
     <None Remove="App\index.ts" />
     <None Remove="App\Manage.ts" />
     <None Remove="App\System.ts" />
+    <None Remove="App\Tests.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,12 +27,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JSK.BusinessLayer\JSK.BusinessLayer.csproj" />
+    <ProjectReference Include="..\JSK.Core\JSK.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="App\index.ts" />
     <TypeScriptCompile Include="App\Manage.ts" />
     <TypeScriptCompile Include="App\System.ts" />
+    <TypeScriptCompile Include="App\Tests.ts" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
 ﻿using JSK.BusinessLayer.DTO;
+using JSK.BusinessLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,11 +10,14 @@ namespace JSK.BusinessLayer.Interfaces
     {
         Task<List<TestDTO>> Test_ListAsync();
         Task Test_SaveAsync(TestDTO test);
-        Task<TestDTO> Test_GetAsync(int id);
+        Task<TestDTO> Test_GetAsync(int id, bool isFull = false);
+        Task<TestDTO> Test_GetAsync(Guid userTestId);
         Task Test_RemoveAsync(int id);
 
         Task Answer_RemoveAsync(int id);
         Task<int> Answer_AddAsync(TestQuestionAnswerDTO answer);
         Task Answer_IsCorrect(int id);
+
+        Task<TestItemModel> GetTestItemModelAsync(Guid id);
     }
 }

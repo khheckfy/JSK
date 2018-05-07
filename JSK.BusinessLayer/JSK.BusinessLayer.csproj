@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\JSK.Core\JSK.Core.csproj" />
     <ProjectReference Include="..\JSK.Data.EntityFramework\JSK.Data.EntityFramework.csproj" />
     <ProjectReference Include="..\JSK.Domain\JSK.Domain.csproj" />
   </ItemGroup>

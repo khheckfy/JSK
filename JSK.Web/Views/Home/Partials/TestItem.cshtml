@@ -1,0 +1,52 @@
+﻿@model TestItemModel
+
+
+<div class="card text-center">
+    <div class="card-header">
+        Please, answer for this question:
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">@Model.QuestionName</h5>
+        <p class="card-text">
+            @if (Model.Answers.Count == 0)
+            {
+                <div class="form-group">
+                    <label for="tbAnsertText">Please, write you're answer for text box:</label>
+                    <textarea class="form-control" id="tbAnsertText" rows="3" maxlength="1024"></textarea>
+                </div>
+            }
+            else
+            {
+                if (Model.IsSingleAnswer)
+                {
+                    <p>Please, select one answer form list:</p>
+                }
+                else
+                {
+                    <p>Please, select one or more answer form list:</p><p></p>
+                }
+                foreach (var a in Model.Answers)
+                {
+                    if (Model.IsSingleAnswer)
+                    {
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="@a.TestQuestionAnswerId" name="customRadio" class="custom-control-input">
+                            <label class="custom-control-label" for="@a.TestQuestionAnswerId">@a.Answer</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="@a.TestQuestionAnswerId">
+                            <label class="custom-control-label" for="@a.TestQuestionAnswerId">@a.Answer</label>
+                        </div>
+                    }
+                }
+            }
+        </p>
+        <a href="#" class="btn btn-primary">Next question</a>
+    </div>
+    <div class="card-footer text-muted">
+
+    </div>
+</div>

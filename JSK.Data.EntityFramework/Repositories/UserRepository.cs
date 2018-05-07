@@ -12,9 +12,9 @@ namespace JSK.Data.EntityFramework.Repositories
 
         }
 
-        public async Task<User> GetByEmail(string email)
+        public Task<User> GetByEmail(string email)
         {
-            return await Set.FirstOrDefaultAsync(n => n.Email == email);
+            return Set.FirstOrDefaultAsync(n => n.Email == email);
         }
     }
 }

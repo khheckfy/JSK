@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using JSK.BusinessLayer.DTO;
 using JSK.BusinessLayer.Interfaces;
+using JSK.BusinessLayer.Models;
 using JSK.Domain;
 using JSK.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,7 +45,7 @@ namespace JSK.BusinessLayer.Services
                 obj.Name = test.Name;
             }
 
-            if (test.TestQuestions != null)
+            if (test.TestQuestions != null && test.TestId > 0)
             {
                 if (obj.TestQuestions == null) obj.TestQuestions = new List<TestQuestion>();
                 if (test.TestQuestions.Count == 0)
@@ -77,20 +79,25 @@ namespace JSK.BusinessLayer.Services
 
         }
 
-        public async Task<TestDTO> Test_GetAsync(int id)
+        public async Task<TestDTO> Test_GetAsync(int id, bool isFull = false)
         {
-            var data = await DB.TestRepository.GetFullItem(id);
+            Test data = null;
+
+            if (isFull)
+                data = await DB.TestRepository.GetFullItem(id);
+            else
+                data = await DB.TestRepository.FindByIdAsync(id);
+
             return _mapper.Map<Test, TestDTO>(data);
-            //var data = await DB.TestRepository.FindByIdAsync(id);
-            //var obj = _mapper.Map<Test, TestDTO>(data);
-            //var qList = await DB.TestQuestionRepository
-            //    .QueryList()
-            //    .Include(n => n.TestQuestionAnswers)
-            //    .Where(n => n.TestId == id && n.IsActive == true)
-            //    .ToListAsync();
-            //obj.Questions = _mapper.Map<List<TestQuestion>, List<TestQuestionDTO>>(qList);
-            //return obj;
         }
+
+        public async Task<TestDTO> Test_GetAsync(Guid userTestId)
+        {
+            Test data = await DB.UserTestRepository.GetTest(userTestId);
+            return _mapper.Map<Test, TestDTO>(data);
+        }
+
+
 
         public async Task Test_RemoveAsync(int id)
         {
@@ -119,6 +126,47 @@ namespace JSK.BusinessLayer.Services
             var obj = await DB.TestQuestionAnswerRepository.FindByIdAsync(id);
             obj.IsCorrect = !obj.IsCorrect;
             await DB.SaveChangesAsync();
+        }
+
+
+
+        public async Task<TestItemModel> GetTestItemModelAsync(Guid id)
+        {
+            TestItemModel model = new TestItemModel();
+
+            var userTest = await DB.UserTestRepository.FindByIdAsync(id);
+            //Get test item
+            var test = await DB.TestRepository.GetFullItem(userTest.TestId);
+
+            model.ID = id;
+            model.TestId = test.TestId;
+            model.TestName = test.Name;
+
+            //Get free questions fot this test
+            var userQuestion = await DB.TestQuestionRepository.GetTestQuestionsByTest(id);
+            var freeQuestoins = test.TestQuestions.Where(n => !userQuestion.Any(q => q.TestQuestionId != n.TestQuestionId)).ToList();
+            TestQuestion topQuestion = null;
+            if (test.IsRandomQuestionsOrder)
+                topQuestion = freeQuestoins.OrderBy(n => Guid.NewGuid()).FirstOrDefault();
+            else
+                topQuestion = freeQuestoins.FirstOrDefault();
+
+            if (topQuestion != null)
+            {
+                model.QuestionId = topQuestion.TestQuestionId;
+                model.QuestionName = topQuestion.Question;
+                model.IsSingleAnswer = topQuestion.IsSingleAnswer;
+
+                model.Answers = _mapper.Map<ICollection<TestQuestionAnswer>, List<TestQuestionAnswerDTO>>(topQuestion.TestQuestionAnswers);
+            }
+            else
+            {
+                //is test completed
+                model.IsComplete = true;
+            }
+
+
+            return model;
         }
     }
 }

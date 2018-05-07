@@ -6,5 +6,7 @@ require("bootstrap");
 require("bootstrap/dist/css/bootstrap.min.css");
 require("font-awesome/css/font-awesome.css");
 var manage = require("./Manage");
+var tests = require("./Tests");
 window["Manage"] = manage;
+window["tests"] = tests;
 window["$"] = $;

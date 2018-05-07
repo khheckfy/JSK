@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JSK.BusinessLayer.Interfaces;
+using JSK.BusinessLayer.Models;
 using JSK.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,12 +37,25 @@ namespace JSK.Web.Controllers
 
             Guid id = await UserService.CreateUser(new BusinessLayer.DTO.UserDTO() { Email = model.Email, Name = model.Name }, model.TestId);
 
-            return RedirectToAction("Test", new { id = id });
+            return RedirectToAction("Test", new { id });
         }
 
         public async Task<IActionResult> Test(Guid id)
         {
-            return View();
+            var model = new TestModel();
+            var test = await TestService.Test_GetAsync(id);
+
+            model.TestName = test.Name;
+            model.UserTestId = id;
+
+            return View(model);
+        }
+
+        public async Task<PartialViewResult> TestItem(Guid id)
+        {
+            TestItemModel model = await TestService.GetTestItemModelAsync(id);
+
+            return PartialView("~/Views/Home/Partials/TestItem.cshtml", model);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace JSK.Web.Controllers
             ManageTestModel model = new ManageTestModel();
             if (id.HasValue)
             {
-                var obj = await TestService.Test_GetAsync(id.Value);
+                var obj = await TestService.Test_GetAsync(id.Value, true);
                 model.IsRandomQuestions = obj.IsRandomQuestionsOrder;
                 model.TestId = id.Value;
                 model.TestName = obj.Name;
@@ -97,7 +97,7 @@ namespace JSK.Web.Controllers
         {
             QuestionAnswersModel model = new QuestionAnswersModel();
 
-            var test = await TestService.Test_GetAsync(id);
+            var test = await TestService.Test_GetAsync(id, true);
 
             model.TestId = id;
             model.TestName = test.Name;

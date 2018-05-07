@@ -1,7 +1,14 @@
-﻿
+﻿@model TestModel
 @{
     ViewData["Title"] = "Test";
 }
 
-<h2>Test</h2>
-
+<h2>@Model.TestName</h2>
+<div id="testRoot">
+    <span class="text-muted">Loading...</span>
+</div>
+@section Scripts{
+    <script>
+        let mainTest = new tests.Tests.Main('@Model.UserTestId.ToString()');
+    </script>
+}

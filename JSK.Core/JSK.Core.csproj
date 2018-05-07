@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JSK.Core\JSK.Core.csproj" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
 
 </Project>
