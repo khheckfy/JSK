@@ -9,11 +9,29 @@ namespace JSK.Domain
     {
         #region Properties
 
+        /// <summary>
+        /// Repo for tests
+        /// </summary>
         ITestRepository TestRepository { get; }
+        /// <summary>
+        /// Repo for anwers of question
+        /// </summary>
         ITestQuestionAnswerRepository TestQuestionAnswerRepository { get; }
+        /// <summary>
+        /// Repo for questions
+        /// </summary>
         ITestQuestionRepository TestQuestionRepository { get; }
+        /// <summary>
+        /// Repo for users
+        /// </summary>
         IUserRepository UserRepository { get; }
+        /// <summary>
+        /// repo for answers
+        /// </summary>
         IUserTestAnswerRepository UserTestAnswerRepository { get; }
+        /// <summary>
+        /// Repo foruser test
+        /// </summary>
         IUserTestRepository UserTestRepository { get; }
 
         #endregion

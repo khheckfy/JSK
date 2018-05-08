@@ -2,26 +2,32 @@
 
 namespace JSK.BusinessLayer.DTO
 {
+    /// <summary>
+    /// TEst entity
+    /// </summary>
     public class TestDTO
     {
         /// <summary>
-        /// Id теста
+        /// Id of test
         /// </summary>
         public int TestId { set; get; }
         /// <summary>
-        /// Название теста
+        /// Name test
         /// </summary>
         public string Name { set; get; }
         /// <summary>
-        /// Вопросы теста выдаются в случайном порядке
+        /// Question for test is random
         /// </summary>
         public bool IsRandomQuestionsOrder { set; get; }
 
         /// <summary>
-        /// Активный тест
+        /// Test is active
         /// </summary>
         public bool IsActive { set; get; }
 
+        /// <summary>
+        /// Questions for test
+        /// </summary>
         public List<TestQuestionDTO> TestQuestions { set; get; }
     }
 }

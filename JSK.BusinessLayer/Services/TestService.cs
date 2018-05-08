@@ -36,11 +36,13 @@ namespace JSK.BusinessLayer.Services
             Test obj = null;
             if (test.TestId == 0)
             {
+                //Create new test
                 obj = _mapper.Map<TestDTO, Test>(test);
                 obj.IsActive = true;
             }
             else
             {
+                //Update test
                 obj = await DB.TestRepository.QueryList()
                     .Include(n => n.TestQuestions).FirstOrDefaultAsync(n => n.TestId == test.TestId);
                 obj.IsRandomQuestionsOrder = test.IsRandomQuestionsOrder;
@@ -49,6 +51,7 @@ namespace JSK.BusinessLayer.Services
 
             if (test.TestQuestions != null && test.TestId > 0)
             {
+                //If create test, then ok, but if update....
                 if (obj.TestQuestions == null) obj.TestQuestions = new List<TestQuestion>();
                 if (test.TestQuestions.Count == 0)
                     obj.TestQuestions.Clear();
@@ -90,6 +93,7 @@ namespace JSK.BusinessLayer.Services
                 data = await DB.TestRepository.GetFullItem(id);
                 if (isOnlActiveRecords)
                 {
+                    //Remove not active records, because include expression with where clasuse is not support stadndard library
                     data.TestQuestions.RemoveAll(x => x.IsActive == false);
                     foreach (var t in data.TestQuestions)
                         t.TestQuestionAnswers.RemoveAll(x => x.IsActive == false);
@@ -163,7 +167,7 @@ namespace JSK.BusinessLayer.Services
                 else
                     topQuestion = freeQuestoins.FirstOrDefault();
             }
-
+            //if question exists, fill it
             if (topQuestion != null)
             {
                 model.QuestionId = topQuestion.TestQuestionId;

@@ -23,6 +23,7 @@ namespace JSK.BusinessLayer.Services
         public async Task<Guid> CreateUser(UserDTO user, int testId)
         {
             var obj = await DB.UserRepository.GetByEmail(user.Email);
+            //if user exists by email, then change user name, if its not equal
             if (obj == null)
             {
                 obj = new Domain.Entities.User()
@@ -40,7 +41,7 @@ namespace JSK.BusinessLayer.Services
             }
 
 
-
+            //Create user test entity, for history
             UserTest userTest = new UserTest()
             {
                 UserTestId = Guid.NewGuid(),

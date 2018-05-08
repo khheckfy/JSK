@@ -15,8 +15,6 @@ namespace JSK.BusinessLayer.Infrastructure
             services.AddTransient<ITestService, TestService>();
             services.AddTransient<IUserService, UserService>();
 
-
-
             services.AddAutoMapper();
             Mappings.RegisterMappings();
             return services;
