@@ -32,8 +32,14 @@ namespace JSK.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(HomeModel model)
         {
+            if (model.TestId == 0)
+                ModelState.AddModelError(string.Empty, "Test not selected");
+
             if (!ModelState.IsValid)
+            {
+                model.Tests = await TestService.Test_ListAsync();
                 return View(model);
+            }
 
             Guid id = await UserService.CreateUser(new BusinessLayer.DTO.UserDTO() { Email = model.Email, Name = model.Name }, model.TestId);
 

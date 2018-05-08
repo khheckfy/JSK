@@ -8,12 +8,12 @@
         @*<p>If you are already registered and select the test you have already passed, the data will be deleted and the test will start again </p>*@
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="Email">
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" asp-for="Email">
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Name</label>
-            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter you're name" name="Name">
+            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter you're name" asp-for="Name">
         </div>
         <div class="form-group">
             <label asp-for="TestId">Select test</label>
